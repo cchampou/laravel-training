@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
+use App\Http\Requests\AuthRequest;
 
 class AuthController extends Controller
 {
 
-    public function authenticate(Request $request)
+    public function authenticate(AuthRequest $request)
     {
-        $request->validate([
-            'email', 'required',
-            'password', 'required'
-        ]);
+        $request->validated();
         return response('Hello World', 200);
     }
 }
