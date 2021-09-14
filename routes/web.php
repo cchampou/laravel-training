@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/status');
+/**
+ * Status route, should always return OK
+ */
 
 Route::get('status', function () {
     return 'OK';
 });
+
+/**
+ * Authentication routes
+ */
+
+Route::get('/login', function (Request $request) {
+    $token = $request->session()->token();
+    return view('login', ['csrf_token' => $token]);
+})->name('login');
+
+Route::post('/auth', [\App\Http\Controllers\AuthController::class, 'authenticate']);
+
+
+/**
+ * Authenticated routes
+ */
+
+Route::get('/dashboard', function () {
+    return 'OK';
+})->middleware('auth');
